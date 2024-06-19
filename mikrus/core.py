@@ -32,18 +32,23 @@ class Mikrus:
         # Cache base URL
         self.base_url: str = BASE_URL
 
-    def _request(self, endpoint: Endpoint, params: str = None) -> dict:
+    def _request(
+            self,
+            endpoint: Endpoint,
+            *,
+            log_id: int = None
+        ) -> dict:
         url = f'{self.base_url}/{endpoint.value}'
-        request = post(
-            url,
-            headers={
-                'Accept': 'application/json; utf-8'
-            },
-            data={
-                'srv': self.server,
-                'key': self.key
-            }
-        )
+        if log_id is not None:
+            url += f'/{log_id}'
+        headers={
+            'Accept': 'application/json; utf-8'
+        }
+        data={
+            'srv': self.server,
+            'key': self.key
+        }
+        request = post(url, headers=headers, data=data)
         if (code := request.status_code) != 200:
             response = dict(
                 error = dict(
