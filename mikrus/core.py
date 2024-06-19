@@ -16,7 +16,7 @@ class Endpoint(Enum):
     SERVERS = 'serwery'
     RESTART = 'restart'
     LOGS_LIST = 'logs'
-    LOG_BY_ID = 'logs/ID'
+    LOG_BY_ID = 'logs'
     BOOST = 'amfetamina'
     DATABASES = 'db'
     COMMAND = 'exec'
