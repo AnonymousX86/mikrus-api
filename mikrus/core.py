@@ -55,7 +55,7 @@ class Mikrus:
         return response
 
     def info(self) -> MikrusInfo:
-        response =self._request(Endpoint.INFO)
+        response = self._request(Endpoint.INFO)
         if (error := response.get('error')):
             raise HTTPError(
                 error.get('code'),
