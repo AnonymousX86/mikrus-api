@@ -70,3 +70,7 @@ class Mikrus:
     def info(self) -> MikrusInfo:
         response = self._request(Endpoint.INFO)
         return MikrusInfo(response)
+
+    def servers(self) -> MikrusServerList:
+        response = self._request(Endpoint.SERVERS)
+        return MikrusServerList(response)

@@ -11,14 +11,23 @@ class MikrusInfo:
         self.last_login: str = payload.get('lastlog_panel')
 
 
-class MikrusServers:
+class MikrusServer:
     def __init__(self, payload: dict) -> None:
-        self.payload = payload
+        self.server_id: str = payload.get('server_id')
+        self.server_name: str = payload.get('server_name')
+        self.expires: str = payload.get('expires')
+        self.param_ram: int = int(payload.get('param_ram', 0))
+        self.param_disk: int = int(payload.get('param_disk', 0))
 
 
 class MikrusRestart:
     def __init__(self, payload: dict) -> None:
         self.payload = payload
+class MikrusServerList:
+    def __init__(self, payload: list[dict]) -> None:
+        self.servers = []
+        for data in payload:
+            self.servers.append(MikrusServer(data))
 
 
 class MikrusLogsList:
