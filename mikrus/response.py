@@ -20,9 +20,6 @@ class MikrusServer:
         self.param_disk: int = int(payload.get('param_disk', 0))
 
 
-class MikrusRestart:
-    def __init__(self, payload: dict) -> None:
-        self.payload = payload
 class MikrusServerList:
     def __init__(self, payload: list[dict]) -> None:
         self.servers = []
@@ -30,14 +27,26 @@ class MikrusServerList:
             self.servers.append(MikrusServer(data))
 
 
-class MikrusLogsList:
+class MikrusRestart:
     def __init__(self, payload: dict) -> None:
         self.payload = payload
 
 
 class MikrusLog:
     def __init__(self, payload: dict) -> None:
-        self.payload = payload
+        self.id: int = int(payload.get('id', 0))
+        self.server_id: str = payload.get('server_id')
+        self.task: str = payload.get('task')
+        self.created: str = payload.get('when_created')
+        self.done: str = payload.get('when_done')
+        self.output: str = payload.get('output')
+
+
+class MikrusLogsList:
+    def __init__(self, payload: list[dict]) -> None:
+        self.logs = []
+        for data in payload:
+            self.logs.append(MikrusLog(data))
 
 
 class MikrusBoost:
