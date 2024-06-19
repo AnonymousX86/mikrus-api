@@ -57,13 +57,16 @@ class Mikrus:
             ))
         else:
             response = request.json()
+        try:
+            if (error := response.get('error')):
+                raise HTTPError(
+                    error.get('code'),
+                    error.get('message')
+                )
+        except AttributeError:
+            pass
         return response
 
     def info(self) -> MikrusInfo:
         response = self._request(Endpoint.INFO)
-        if (error := response.get('error')):
-            raise HTTPError(
-                error.get('code'),
-                error.get('message')
-            )
         return MikrusInfo(response)
