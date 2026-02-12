@@ -68,6 +68,12 @@ class MikrusLog:
         self.done: datetime | None = optional_datetime(payload.get('when_done'))
         self.output: str = payload.get('output')
 
+    @property
+    def time(self) -> timedelta | None:
+        if not isinstance(self.created, datetime) or not isinstance(self.done, datetime):
+            return None
+        return self.created - self.done
+
     def __str__(self) -> str:
         return f'{self.id}:{self.task}'
 
