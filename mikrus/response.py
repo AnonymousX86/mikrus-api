@@ -1,23 +1,44 @@
 # -*- coding: utf-8 -*-
-class MikrusInfo:
-    def __init__(self, payload: dict) -> None:
-        self.server_id: str = payload.get('server_id')
-        self.server_name: str = payload.get('server_name')
-        self.expires: str = payload.get('expires')
-        self.expires_cytrus: str = payload.get('expires_cytrus')
-        self.expires_storage: str = payload.get('expires_storage')
-        self.param_ram: int = int(payload.get('param_ram', 0))
-        self.param_disk: int = int(payload.get('param_disk', 0))
-        self.last_login: str = payload.get('lastlog_panel')
+from datetime import datetime, timedelta
+from operator import getitem
+
+NULL_DATETIME = datetime.min.isoformat()
+
+
+def optional_datetime(timestamp: str) -> datetime | None:
+    if timestamp:
+        return datetime.fromisoformat(timestamp)
+    return None
 
 
 class MikrusServer:
     def __init__(self, payload: dict) -> None:
         self.server_id: str = payload.get('server_id')
         self.server_name: str = payload.get('server_name')
-        self.expires: str = payload.get('expires')
+        self.expires: datetime = datetime.fromisoformat(payload.get('expires'))
         self.param_ram: int = int(payload.get('param_ram', 0))
         self.param_disk: int = int(payload.get('param_disk', 0))
+
+    def __str__(self) -> str:
+        return self.server_id
+
+    def __repr__(self) -> str:
+        return (
+            f'Mikrus(' +
+            f'id="{self.server_id}", ' +
+            f'expires="{self.expires}", ' +
+            f'ram="{self.param_ram}", ' +
+            f'hdd="{self.param_disk}")'
+        )
+
+
+class MikrusServerInfo(MikrusServer):
+    def __init__(self, payload: dict) -> None:
+        super().__init__(payload)
+        self.imie_id: str = payload.get('imie_id')
+        self.expires_storage: datetime | None = optional_datetime(payload.get('expires_storage'))
+        self.last_login: datetime = datetime.fromisoformat(payload.get('lastlog_panel'))
+        self.mikrus_pro: bool = payload.get('mikrus_pro', 'nie') != 'nie'
 
 
 class MikrusServerList:
@@ -43,8 +64,8 @@ class MikrusLog:
         self.id: int = int(payload.get('id', 0))
         self.server_id: str = payload.get('server_id')
         self.task: str = payload.get('task')
-        self.created: str = payload.get('when_created')
-        self.done: str = payload.get('when_done')
+        self.created: datetime = datetime.fromisoformat(payload.get('when_created'))
+        self.done: datetime | None = optional_datetime(payload.get('when_done'))
         self.output: str = payload.get('output')
 
     def __str__(self) -> str:
