@@ -7,9 +7,9 @@ from mikrus.core import Mikrus
 
 
 if __name__ == '__main__':
-    SEREVR_NAME = getenv('SERVER_NAME')
+    SERVER_NAME = getenv('SERVER_NAME')
     API_KEY = getenv('API_KEY')
-    server = Mikrus(SEREVR_NAME, API_KEY)
+    server = Mikrus(SERVER_NAME, API_KEY)
     try:
         info = server.info()
         print(f'Server: {info.server_name} (ID: {info.server_id})')
