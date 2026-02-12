@@ -73,11 +73,11 @@ class Mikrus:
 
     def servers(self) -> MikrusServerList:
         response = self._request(Endpoint.SERVERS)
-        return MikrusServerList(response)
+        return MikrusServerList(list(response))
 
     def logs_list(self) -> MikrusLogsList:
         response = self._request(Endpoint.LOGS_LIST)
-        return MikrusLogsList(response)
+        return MikrusLogsList(list(response))
 
     def log_by_id(self, log_id: int) -> MikrusLog:
         response = self._request(Endpoint.LOG_BY_ID, log_id=log_id)
