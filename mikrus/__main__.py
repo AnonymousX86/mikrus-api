@@ -14,7 +14,7 @@ if __name__ == '__main__':
         info = server.info()
         print(f'Server: {info.server_name} (ID: {info.server_id})')
         server_list = server.servers()
-        print(f'Server list: {', '.join(map(str, server_list.servers)) if server_list else 'None'}')
+        print(f'Server list: {str(server_list) if server_list else 'None'}')
         logs = server.logs_list()
         print(f'Server logs: {str(logs) if logs else 'None'}')
         print(f'Last log: {server.log_by_id(logs[0].id) if logs else 'None'}')
