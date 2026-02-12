@@ -58,7 +58,7 @@ class Mikrus:
         else:
             response = request.json()
         try:
-            if (error := response.get('error')):
+            if error := response.get('error'):
                 raise HTTPError(
                     error.get('code'),
                     error.get('message')
