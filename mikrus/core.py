@@ -80,3 +80,7 @@ class Mikrus:
     def log_by_id(self, log_id: int) -> MikrusLog:
         response = self._request(Endpoint.LOG_BY_ID, log_id=log_id)
         return MikrusLog(response)
+
+    def databases(self) -> MikrusDatabaseList:
+        response = self._request(Endpoint.DATABASES)
+        return MikrusDatabaseList(response)

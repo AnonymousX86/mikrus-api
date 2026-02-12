@@ -104,9 +104,41 @@ class MikrusBoost:
         self.payload = payload
 
 
-class MikrusDatabases:
+class MikrusDatabase:
+    def __init__(self, db_type: str, payload: str) -> None:
+        self.type: str = db_type
+        rows = payload.split('\n')
+        self.server: str = rows[0].split(': ')[1]
+        self.login: str = rows[1].split(': ')[1]
+        self.password: str = rows[2].split(': ')[1]
+        self.base: str = rows[3].split(': ')[1]
+
+    def __str__(self) -> str:
+        return f'{self.type}://{self.login}@{self.server}/{self.base}'
+
+    def __repr__(self) -> str:
+        return (
+            f'MikrusDatabase(' +
+            f'server="{self.server}", ' +
+            f'login="{self.login}", ' +
+            f'base="{self.base}")'
+        )
+
+
+class MikrusDatabaseList:
     def __init__(self, payload: dict) -> None:
-        self.payload = payload
+        self.databases = []
+        for data in payload.keys():
+            self.databases.append(MikrusDatabase(data, payload[data]))
+
+    def __str__(self):
+        return f'[{', '.join(map(str, self.databases))}]'
+
+    def __getitem__(self, item: str) -> MikrusDatabase:
+        for database in self.databases:
+            if database.type == item:
+                return database
+        raise KeyError(item)
 
 
 class MikrusCommand:
