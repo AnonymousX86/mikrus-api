@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
-from operator import getitem
+
 
 NULL_DATETIME = datetime.min.isoformat()
 
