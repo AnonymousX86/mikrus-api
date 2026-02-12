@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
-from json import loads as json_loads
-from os import getenv
 
 from requests import HTTPError, post
 
