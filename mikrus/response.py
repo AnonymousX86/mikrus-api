@@ -26,6 +26,12 @@ class MikrusServerList:
         for data in payload:
             self.servers.append(MikrusServer(data))
 
+    def __str__(self) -> str:
+        return f'[{', '.join(map(str, self.servers))}]'
+
+    def __getitem__(self, item: int) -> MikrusServer:
+        return self.servers[item]
+
 
 class MikrusRestart:
     def __init__(self, payload: dict) -> None:
@@ -41,12 +47,29 @@ class MikrusLog:
         self.done: str = payload.get('when_done')
         self.output: str = payload.get('output')
 
+    def __str__(self) -> str:
+        return f'{self.id}:{self.task}'
+
+    def __repr__(self) -> str:
+        return (
+            f'MikrusLog(' +
+            f'id="{self.id}", ' +
+            f'server_id="{self.server_id}", ' +
+            f'task="{self.task}")'
+        )
+
 
 class MikrusLogsList:
     def __init__(self, payload: list[dict]) -> None:
         self.logs = []
         for data in payload:
             self.logs.append(MikrusLog(data))
+
+    def __str__(self) -> str:
+        return f'[{', '.join(map(str, self.logs))}]'
+
+    def __getitem__(self, item: int) -> MikrusLog:
+        return self.logs[item]
 
 
 class MikrusBoost:
