@@ -26,7 +26,7 @@ class Endpoint(Enum):
 class Mikrus:
     def __init__(self, server: str, key: str) -> None:
         self.server: str = server
-        self.key: str = key
+        self.__key: str = key
         # Cache base URL
         self.base_url: str = BASE_URL
 
@@ -40,11 +40,11 @@ class Mikrus:
         if log_id is not None:
             url += f'/{log_id}'
         headers={
-            'Accept': 'application/json; utf-8'
+            'Accept': 'application/json; utf-8',
+            'Authorization': self.__key
         }
         data={
-            'srv': self.server,
-            'key': self.key
+            'srv': self.server
         }
         request = post(url, headers=headers, data=data)
         if (code := request.status_code) != 200:
